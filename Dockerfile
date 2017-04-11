@@ -10,13 +10,12 @@ MAINTAINER privateHeberg
 ENV STEAM_USER anonymous
 ENV STEAM_PASSWORD ""
 ENV INSTANCE_NAME=""
-ENV GAME_PARAMS=""
 ENV INSTANCE_PORT=27015
 # =================== #
 
 # ==== Paquets ==== #
 RUN apt-get update &&\
-    apt-get install -y curl unzip htop wget
+    apt-get install -y curl unzip
 RUN dpkg --add-architecture i386
 RUN apt-get update &&\
     apt-get install -y build-essential gcc-multilib rpm libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 &&\
