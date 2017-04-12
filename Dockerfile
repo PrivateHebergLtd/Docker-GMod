@@ -9,18 +9,20 @@ MAINTAINER privateHeberg
 # ==== Variables ==== #
 ENV STEAM_USER anonymous
 ENV STEAM_PASSWORD ""
-ENV INSTANCE_NAME=""
+ENV INSTANCE_ID=""
 ENV INSTANCE_PORT=27015
+ENV SLOTS=16
 # =================== #
 
 # ==== Paquets ==== #
 RUN apt-get update &&\
-    apt-get install -y curl unzip
+    apt-get install -y curl unzip wget
 RUN dpkg --add-architecture i386
 RUN apt-get update &&\
-    apt-get install -y build-essential gcc-multilib rpm libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 &&\
-    apt-get install libmono2.0-cil mono-runtime &&\
-    apt-get install libc6:i386 libgl1-mesa-glx:i386 libxcursor1:i386 libxrandr2:i386
+    apt-get install lib32stdc++6 &&\
+    apt-get install mono-runtime libmono2.0-cil &&\
+    apt-get install libc6 libgl1-mesa-glx libxcursor1 libxrandr2 &&\
+    apt-get install libc6-dev-i386 libgcc-4.8-dev
 # ================= #
 
 # ==== Steam user ==== #
@@ -45,6 +47,22 @@ RUN mkdir /home/unturned/steamcmd &&\
 	cd /home/unturned/steamcmd &&\
 	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz
 # ================== #
+
+# ==== Rocket ==== #
+RUN mkdir /home/unturned/rocket &&\
+	cd /home/unturned/rocket &&\
+	wget https://ci.rocketmod.net/job/Rocket.Unturned%20Linux/lastSuccessfulBuild/artifact/Rocket.Unturned/bin/Release/Rocket.zip -O rocket.zip &&\
+	unzip -o rocket.zip &&\
+	rm rocket.zip
+# ================ #
+
+# ==== Server Template ==== #
+RUN mkdir /home/unturned/template &&\
+	cd /home/unturned/template &&\
+	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip &&\
+	unzip -o template.zip &&\
+	rm template.zip
+# ========================= #
 
 # ==== Volumes ==== #
 VOLUME  /data

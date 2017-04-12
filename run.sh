@@ -29,15 +29,20 @@ echo "--- Mise à jour du serveur Unturned ---"
 	+quit
 
 cd /data/unturned
-if [ ! -f "RocketLauncher.exe" ]; then
+if [ ! -f RocketLauncher.exe ]; then
 	echo "--- Installation de Rocket ---"
-	cd /data/rocket
-	wget https://ci.rocketmod.net/job/Rocket.Unturned%20Linux/lastSuccessfulBuild/artifact/Rocket.Unturned/bin/Release/Rocket.zip
-	unzip Rocket.zip
-	rm Rocket.zip
-	mv RocketLauncher.exe /data/unturned
-	mv *.dll /data/unturned/Unturned_Headless_Data/Managed
-	rm -rf *
+	cp /home/unturned/rocket/RocketLauncher.exe /data/unturned
+	cp /home/unturned/rocket/*.dll /data/unturned/Unturned_Headless_Data/Managed
+fi
+
+
+if [ ! -f /data/unturned/Servers/${INSTANCE_ID}/Server/Commands.dat ]; then
+	echo "--- Création des fichiers template ---"
+	cp /home/unturned/template /data/unturned/Servers/${INSTANCE_ID}/
+	cd /data/unturned/Servers/${INSTANCE_ID}/
+	# Ajouter les paramètres
+	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
+	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
 fi
 
 echo "--- Démarrage du serveur ---"
@@ -57,7 +62,7 @@ cd /data/unturned
 
 if [ -f RocketLauncher.exe ]; then
 	ulimit -n 2048
-	mono RocketLauncher.exe ${INSTANCE_NAME}
+	mono RocketLauncher.exe ${INSTANCE_ID}
 else
 	echo "RocketLauncher n'a pas été trouvé. Lancement impossible !"
 fi
