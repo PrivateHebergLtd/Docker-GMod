@@ -29,18 +29,36 @@ echo "--- Mise à jour du serveur Unturned ---"
 	+quit
 
 cd /data/unturned
+# Installer Rocket
 if [ ! -f RocketLauncher.exe ]; then
 	echo "--- Installation de Rocket ---"
-	cp /home/unturned/rocket/RocketLauncher.exe /data/unturned
-	cp /home/unturned/rocket/*.dll /data/unturned/Unturned_Headless_Data/Managed
+	InstallRocket
 fi
 
+# Rechercher une mise à jour Rocket et l'installer
+current_version='cat RocketVersion.txt'
+last_version=$(wget https://cdn.privateheberg.com/Unturned/RocketVersion.txt -q -O -)
+if [ $current_version != $last_version ]; then
+	echo "--- Mise à jour de Rocket ---"
+	InstallRocket
+fi
 
-if [ ! -f /data/unturned/Servers/${INSTANCE_ID}/Server/Commands.dat ]; then
+# Création des répertoires
+mkdir -p /data/unturned/Servers/${INSTANCE_ID}
+
+# Fichier template
+if [ ! -d /data/unturned/Servers/${INSTANCE_ID}/Server ]; then
 	echo "--- Création des fichiers template ---"
-	cp /home/unturned/template /data/unturned/Servers/${INSTANCE_ID}/
-	cd /data/unturned/Servers/${INSTANCE_ID}/
-	# Ajouter les paramètres
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip
+	unzip -o template.zip
+	rm template.zip
+fi
+
+# Fichier de configuration
+if [ ! -f /data/unturned/Servers/${INSTANCE_ID}/Server/Commands.dat ]; then
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.com/Unturned/Commands.dat
 	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
 	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
 fi
@@ -66,3 +84,13 @@ if [ -f RocketLauncher.exe ]; then
 else
 	echo "RocketLauncher n'a pas été trouvé. Lancement impossible !"
 fi
+
+InstallRocket () {
+	cd /data/unturned
+	[ -f RocketLauncher.exe ] && rm -rf RocketLauncher.exe
+	[ -f RocketVersion.txt ] && rm -rf RocketVersion.txt
+	[ -d Module/Rocket.Unturned ] && rm -rf Rocket.Unturned
+	wget https://cdn.privateheberg.com/Unturned/Rocket.zip -O rocket.zip
+	unzip -o rocket.zip
+	rm rocket.zip
+}
