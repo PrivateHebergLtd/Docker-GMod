@@ -25,15 +25,6 @@ RUN apt-get update &&\
     apt-get install libc6-dev-i386 libgcc-4.8-dev
 # ================= #
 
-# ==== Steam user ==== #
-RUN adduser \
-	--disabled-login \
-	--shell /bin/bash \
-	--gecos "" \
-	steam
-RUN usermod -a -G sudo steam
-# ==================== #
-
 # ==== Scripts ==== #
 COPY run.sh /home/unturned/run.sh
 RUN touch /root/.bash_profile
