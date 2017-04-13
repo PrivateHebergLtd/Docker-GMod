@@ -48,22 +48,6 @@ RUN mkdir /home/unturned/steamcmd &&\
 	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz
 # ================== #
 
-# ==== Rocket ==== #
-RUN mkdir /home/unturned/rocket &&\
-	cd /home/unturned/rocket &&\
-	wget https://ci.rocketmod.net/job/Rocket.Unturned%20Linux/lastSuccessfulBuild/artifact/Rocket.Unturned/bin/Release/Rocket.zip -O rocket.zip &&\
-	unzip -o rocket.zip &&\
-	rm rocket.zip
-# ================ #
-
-# ==== Server Template ==== #
-RUN mkdir /home/unturned/template &&\
-	cd /home/unturned/template &&\
-	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip &&\
-	unzip -o template.zip &&\
-	rm template.zip
-# ========================= #
-
 # ==== Volumes ==== #
 VOLUME  /data
 WORKDIR /data
