@@ -29,6 +29,7 @@ echo "--- Mise à jour du serveur Unturned ---"
 	+quit
 
 cd /data/unturned
+
 # Installer Rocket
 if [ ! -f RocketLauncher.exe ]; then
 	echo "--- Installation de Rocket ---"
@@ -47,21 +48,10 @@ fi
 mkdir -p /data/unturned/Servers/${INSTANCE_ID}
 
 # Fichier template
-if [ ! -d /data/unturned/Servers/${INSTANCE_ID}/Server ]; then
-	echo "--- Création des fichiers template ---"
-	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip
-	unzip -o template.zip
-	rm template.zip
-fi
+[ ! -d /data/unturned/Servers/${INSTANCE_ID}/Server ] && InstallTemplate
 
 # Fichier de configuration
-if [ ! -f /data/unturned/Servers/${INSTANCE_ID}/Server/Commands.dat ]; then
-	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.com/Unturned/Commands.dat
-	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
-	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
-fi
+[ ! -f /data/unturned/Servers/${INSTANCE_ID}/Server/Commands.dat ] && CreateCommands
 
 echo "--- Démarrage du serveur ---"
 
@@ -85,6 +75,14 @@ else
 	echo "RocketLauncher n'a pas été trouvé. Lancement impossible !"
 fi
 
+InstallTemplate () {
+	echo "--- Création des fichiers template ---"
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip
+	unzip -o template.zip
+	rm template.zip
+}
+
 InstallRocket () {
 	cd /data/unturned
 	[ -f RocketLauncher.exe ] && rm -rf RocketLauncher.exe
@@ -93,4 +91,11 @@ InstallRocket () {
 	wget https://cdn.privateheberg.com/Unturned/Rocket.zip -O rocket.zip
 	unzip -o rocket.zip
 	rm rocket.zip
+}
+
+CreateCommands () {
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.com/Unturned/Commands.dat
+	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
+	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
 }
