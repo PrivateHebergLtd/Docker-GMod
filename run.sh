@@ -38,7 +38,7 @@ fi
 
 # Rechercher une mise à jour Rocket et l'installer
 current_version='cat RocketVersion.txt'
-last_version=$(wget https://cdn.privateheberg.com/Unturned/RocketVersion.txt -q -O -)
+last_version=$(wget https://cdn.privateheberg.fr/Unturned/RocketVersion.txt -q -O -)
 if [ $current_version != $last_version ]; then
 	echo "--- Mise à jour de Rocket ---"
 	InstallRocket
@@ -80,7 +80,7 @@ fi
 InstallTemplate () {
 	echo "--- Création des fichiers template ---"
 	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.com/Unturned/Template.zip -O template.zip
+	wget https://cdn.privateheberg.fr/Unturned/Template.zip -O template.zip
 	unzip -o template.zip
 	rm template.zip
 }
@@ -90,14 +90,14 @@ InstallRocket () {
 	[ -f RocketLauncher.exe ] && rm -rf RocketLauncher.exe
 	[ -f RocketVersion.txt ] && rm -rf RocketVersion.txt
 	[ -d Module/Rocket.Unturned ] && rm -rf Rocket.Unturned
-	wget https://cdn.privateheberg.com/Unturned/Rocket.zip -O rocket.zip
+	wget https://cdn.privateheberg.fr/Unturned/Rocket.zip -O rocket.zip
 	unzip -o rocket.zip
 	rm rocket.zip
 }
 
 CreateCommands () {
 	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.com/Unturned/Commands.dat
+	wget https://cdn.privateheberg.fr/Unturned/Commands.dat
 	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
 	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
 }
