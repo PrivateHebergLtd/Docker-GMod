@@ -19,10 +19,10 @@ RUN apt-get update &&\
     apt-get install -y curl unzip wget
 RUN dpkg --add-architecture i386
 RUN apt-get update &&\
-    apt-get install lib32stdc++6 &&\
-    apt-get install mono-runtime libmono2.0-cil &&\
-    apt-get install libc6 libgl1-mesa-glx libxcursor1 libxrandr2 &&\
-    apt-get install libc6-dev-i386 libgcc-4.8-dev
+    apt-get install -y lib32stdc++6 &&\
+    apt-get install -y mono-runtime libmono2.0-cil &&\
+    apt-get install -y libc6 libgl1-mesa-glx libxcursor1 libxrandr2 &&\
+    apt-get install -y libc6-dev-i386 libgcc-4.8-dev
 # ================= #
 
 # ==== Scripts ==== #
