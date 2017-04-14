@@ -30,7 +30,6 @@ COPY run.sh /home/unturned/run.sh
 RUN touch /root/.bash_profile
 RUN chmod 777 /home/unturned/run.sh
 RUN mkdir  /data
-RUN chown steam -R /data && chmod 755 -R /data
 # ================= #
 
 # ==== SteamCMD ==== #
