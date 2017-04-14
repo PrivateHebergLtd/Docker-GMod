@@ -68,6 +68,8 @@ fi
 
 cd /data/unturned
 
+find . -type f -iname \*.png -delete # Delete useless files
+
 if [ -f RocketLauncher.exe ]; then
 	ulimit -n 2048
 	mono RocketLauncher.exe ${INSTANCE_ID}
