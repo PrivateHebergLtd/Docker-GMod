@@ -2,6 +2,31 @@
 
 export MONO_IOMAP=all
 
+function InstallTemplate {
+	echo "--- Création des fichiers template ---"
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.fr/Unturned/Template.zip -O template.zip
+	unzip -o template.zip
+	rm template.zip
+}
+
+function InstallRocket {
+	cd /data/unturned
+	[ -f RocketLauncher.exe ] && rm -rf RocketLauncher.exe
+	[ -f RocketVersion.txt ] && rm -rf RocketVersion.txt
+	[ -d Module/Rocket.Unturned ] && rm -rf Rocket.Unturned
+	wget https://cdn.privateheberg.fr/Unturned/Rocket.zip -O rocket.zip
+	unzip -o rocket.zip
+	rm rocket.zip
+}
+
+function CreateCommands {
+	cd /data/unturned/Servers/${INSTANCE_ID}
+	wget https://cdn.privateheberg.fr/Unturned/Commands.dat
+	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
+	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
+}
+
 echo "#######################################"
 echo "#  PrivateHeberg© - Module Unturned   #"
 echo "#######################################"
@@ -76,28 +101,3 @@ if [ -f RocketLauncher.exe ]; then
 else
 	echo "RocketLauncher n'a pas été trouvé. Lancement impossible !"
 fi
-
-InstallTemplate () {
-	echo "--- Création des fichiers template ---"
-	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.fr/Unturned/Template.zip -O template.zip
-	unzip -o template.zip
-	rm template.zip
-}
-
-InstallRocket () {
-	cd /data/unturned
-	[ -f RocketLauncher.exe ] && rm -rf RocketLauncher.exe
-	[ -f RocketVersion.txt ] && rm -rf RocketVersion.txt
-	[ -d Module/Rocket.Unturned ] && rm -rf Rocket.Unturned
-	wget https://cdn.privateheberg.fr/Unturned/Rocket.zip -O rocket.zip
-	unzip -o rocket.zip
-	rm rocket.zip
-}
-
-CreateCommands () {
-	cd /data/unturned/Servers/${INSTANCE_ID}
-	wget https://cdn.privateheberg.fr/Unturned/Commands.dat
-	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
-	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
-}
