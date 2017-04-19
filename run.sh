@@ -22,10 +22,10 @@ function InstallRocket {
 
 function CreateCommands {
 	echo "[PrivateHeberg©]  Création du fichier de Commandes..."
-	cd /data/unturned/Servers/${INSTANCE_ID}
+	cd /data/unturned/Servers/${INSTANCE_ID}/Server
 	wget https://cdn.privateheberg.fr/Unturned/Commands.dat
-	echo $'\r'"port ${INSTANCE_PORT}" >> Server/Commands.dat
-	echo $'\r'"maxplayers ${SLOTS}" >> Server/Commands.dat
+	echo $'\r'"port ${INSTANCE_PORT}" >> Commands.dat
+	echo $'\r'"maxplayers ${SLOTS}" >> Commands.dat
 }
 
 for i in $(seq 1 50);
